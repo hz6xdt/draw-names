@@ -1,0 +1,51 @@
+﻿@model DrawingEditModel
+
+<div class="bg-primary m-1 p-1 text-white"><h4>Edit Drawing</h4></div>
+
+<div asp-validation-summary="All" class="text-danger"></div>
+
+<form asp-action="Edit" method="post">
+
+    <input type="hidden" name="drawingName" value="@Model.Drawing.Name" />
+    <input type="hidden" name="drawingId" value="@Model.Drawing.Id" />
+
+    <h6 class="bg-info p-1 text-white">Add Name To @Model.Drawing.Name Drawing</h6>
+    <table class="table table-bordered table-sm">
+        @if (Model.NonMembers.Count() == 0)
+        {
+            <tr><td colspan="2">All Names Have Been Added</td></tr>
+        }
+        else
+        {
+            @foreach (AppUser user in Model.NonMembers)
+            {
+                <tr>
+                    <td>@user.UserName</td>
+                    <td><input type="checkbox" name="IdsToAdd" value="@user.Id"></td>
+                </tr>
+            }
+        }
+    </table>
+
+    <h6 class="bg-info p-1 text-white">Remove Name From @Model.Drawing.Name Drawing</h6>
+    <table class="table table-bordered table-sm">
+        @if (Model.Members.Count() == 0)
+        {
+            <tr><td colspan="2">No Names In Drawing Yet...</td></tr>
+        }
+        else
+        {
+            @foreach (AppUser user in Model.Members)
+            {
+                <tr>
+                    <td>@user.UserName</td>
+                    <td><input type="checkbox" name="IdsToDelete" value="@user.Id"></td>
+                </tr>
+            }
+        }
+    </table>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+
+</form>

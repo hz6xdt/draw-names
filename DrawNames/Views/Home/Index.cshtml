@@ -1,0 +1,49 @@
+﻿@model IEnumerable<DrawingListModel>
+
+<div class="bg-primary m-1 p-1 text-white"><h4>Drawings</h4></div>
+
+<div class="text-danger" asp-validation-summary="ModelOnly"></div>
+
+<table class="table table-sm table-bordered">
+    <tr><th>ID</th><th>Drawing</th><th>Names</th><th></th></tr>
+    @if (Model.Count() == 0)
+    {
+        <tr><td colspan="3" class="text-center">No Drawings</td></tr>
+    }
+    else
+    {
+        foreach (DrawingListModel drawing in Model)
+        {
+            <tr>
+                <td>@drawing.Drawing.Id</td>
+                <td>@drawing.Drawing.Name</td>
+                <td drawing-name="@drawing.Drawing.Id"></td>
+                <td>
+                    <form asp-action="Delete" asp-route-id="@drawing.Drawing.Id" method="post">
+                        @if (drawing.Drawing.Drawn)
+                        {
+                            <a class="btn btn-sm btn-primary" asp-action="View" asp-route-id="@drawing.Drawing.Id">View Name</a>
+                        }
+                        else
+                        {
+                            @if (drawing.Names.Count > 2)
+                            {
+                                <a class="btn btn-sm btn-primary" asp-action="DrawNames" asp-route-id="@drawing.Drawing.Id">Draw Names</a>
+                            }
+                            <a class="btn btn-sm btn-secondary" asp-action="Edit" asp-route-id="@drawing.Drawing.Id">Edit</a>
+                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                        }
+                    </form>
+                </td>
+            </tr>
+        }
+    }
+</table>
+
+<a class="btn btn-primary" asp-action="Create">Create</a>
+
+@if (User?.Identity?.IsAuthenticated ?? false)
+{
+    <a asp-controller="Account" asp-action="SignOut"
+       class="btn btn-danger">Sign Out</a>
+}
