@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using System.IO;
 
 namespace DrawNames
 {
@@ -13,9 +15,25 @@ namespace DrawNames
         public static IWebHost BuildWebHost(string[] args)
         {
             return WebHost.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration(ConfigConfiguration)
                 .UseStartup<Startup>()
                 .UseDefaultServiceProvider(options => options.ValidateScopes = false)
                 .Build();
+        }
+
+        static void ConfigConfiguration(WebHostBuilderContext webHostBuilderContext, IConfigurationBuilder configurationBuilder)
+        {
+            configurationBuilder.SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("keysettings.json", false, true)
+                .AddEnvironmentVariables();
+
+            var config = configurationBuilder.Build();
+
+            configurationBuilder.AddAzureKeyVault(
+                config["KeyVault:SecretUri"],
+                config["KeyVault:ClientId"],
+                config["KeyVault:ClientSecret"]
+            );
         }
     }
 }
