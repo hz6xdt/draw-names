@@ -5,8 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 
 namespace DrawNames.Controllers
-{
-    [Authorize(Roles = "Admins")]
+{    
     public class AdminController : Controller
     {
         private UserManager<AppUser> userManager;
@@ -25,6 +24,7 @@ namespace DrawNames.Controllers
             passwordHasher = passwordHash;
         }
 
+        [Authorize(Roles = "Admins")]
         public ViewResult Index() => View(userManager.Users);
 
         public ViewResult Create() => View();
