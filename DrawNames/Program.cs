@@ -28,12 +28,6 @@ namespace DrawNames
                 .AddEnvironmentVariables();
 
             var config = configurationBuilder.Build();
-
-            configurationBuilder.AddAzureKeyVault(
-                config["KeyVault:SecretUri"],
-                config["KeyVault:ClientId"],
-                config["KeyVault:ClientSecret"]
-            );
         }
     }
 }

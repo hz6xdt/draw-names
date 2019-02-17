@@ -50,7 +50,7 @@ namespace DrawNames
             app.UseStaticFiles();
             app.UseAuthentication();
             app.UseMvcWithDefaultRoute();
-            DrawNamesDbContext.CreateAdminAccount(app.ApplicationServices, Configuration).Wait();
+            //DrawNamesDbContext.CreateAdminAccount(app.ApplicationServices, Configuration).Wait();
         }
     }
 }
