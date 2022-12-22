@@ -115,6 +115,7 @@ namespace DrawNames.Controllers
                         else
                         {
                             drawnNames.Add(user.Id, drawnName.Id);
+                            cupOfNames.Remove(drawnName);
                         }
                     }
 
